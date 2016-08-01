@@ -16,6 +16,7 @@
 		BFB8A7D61D489FA100E02573 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB8A7D51D489FA100E02573 /* SearchTableViewController.swift */; };
 		BFB8A7D81D489FF900E02573 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB8A7D71D489FF900E02573 /* SearchTableViewCell.swift */; };
 		BFB8A7DA1D48A1E000E02573 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB8A7D91D48A1E000E02573 /* Song.swift */; };
+		BFF46C091D4CBCE70081A2AC /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF46C081D4CBCE70081A2AC /* NetworkManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		BFB8A7D51D489FA100E02573 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		BFB8A7D71D489FF900E02573 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		BFB8A7D91D48A1E000E02573 /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
+		BFF46C081D4CBCE70081A2AC /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 				BFB8A7D51D489FA100E02573 /* SearchTableViewController.swift */,
 				BFB8A7D71D489FF900E02573 /* SearchTableViewCell.swift */,
 				BFB8A7D91D48A1E000E02573 /* Song.swift */,
+				BFF46C081D4CBCE70081A2AC /* NetworkManager.swift */,
 			);
 			path = Training89;
 			sourceTree = "<group>";
@@ -206,6 +209,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFF46C091D4CBCE70081A2AC /* NetworkManager.swift in Sources */,
 				BFB8A7B31D489F4B00E02573 /* AppDelegate.swift in Sources */,
 				BFB8A7D81D489FF900E02573 /* SearchTableViewCell.swift in Sources */,
 				BFB8A7D61D489FA100E02573 /* SearchTableViewController.swift in Sources */,
@@ -340,6 +344,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Training89/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = rikkei.Training89;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -351,6 +356,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Training89/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = rikkei.Training89;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -400,6 +406,7 @@
 				BFB8A7D11D489F4B00E02573 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BFB8A7D21D489F4B00E02573 /* Build configuration list for PBXNativeTarget "Training89Tests" */ = {
 			isa = XCConfigurationList;
@@ -408,6 +415,7 @@
 				BFB8A7D41D489F4B00E02573 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

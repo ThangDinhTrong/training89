@@ -18,14 +18,18 @@ class SearchTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-           }
+        self.navigationController?.navigationBar.backgroundColor = UIColor.yellowColor()
+        self.tableView.separatorColor = UIColor.whiteColor()
+        tableView.setContentOffset(CGPointZero, animated:true)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchTableViewController.songsLoadedAndUseNotification), name: "songloaded", object: nil)
+        
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+           }
 
-    // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -33,7 +37,7 @@ class SearchTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+        // #warning Incomplete  implementation, return the number of rows
         return songs.count
     }
 
@@ -44,74 +48,86 @@ class SearchTableViewController: UITableViewController {
         // Configure the cell...
         cell.songLabel.text = songs[indexPath.row].song
         cell.detailLabel.text = songs[indexPath.row].detail
-        cell.imageView?.image = UIImage(named: "default")
+        self.loadImageFromUrl(songs[indexPath.row].imageURL, view: cell.imageView!)
         return cell
     }
     
-    func updateSongs(data:NSData?) {
-        songs.removeAll()
-        do {
-            if let data = data, response = try NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions(rawValue:0)) as? [String: AnyObject] {
-                
-                // Get the results array
-                if let array: AnyObject = response["results"] {
-                    for trackDictonary in array as! [AnyObject] {
-                        if let trackDictonary = trackDictonary as? [String: AnyObject] {
-                            // Parse the search result
-                            let name = trackDictonary["trackName"] as? String
-                            let artist = trackDictonary["artistName"] as? String
-                            let imageUrl = trackDictonary["artworkUrl100"] as? String
-//                            print(trackDictonary["artworkUrl100"])
-                            self.songs.append(Song(song: name!, detail: artist!, imageURL: imageUrl!))
-                        } else {
-                            print("Not a dictionary")
-                        }
-                    }
-                } else {
-                    print("Results key not found in dictionary")
-                }
-            } else {
-                print("JSON Error")
+    func loadImageFromUrl(url: String, view: UIImageView){
+        
+        let url = NSURL(string: url)!
+
+        let task = NSURLSession.sharedSession().dataTaskWithURL(url) { (responseData, responseUrl, error) -> Void in
+            if let data = responseData{
+
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    view.image = UIImage(data: data)
+                })
             }
-        } catch let error as NSError {
-            print("Error parsing results: \(error.localizedDescription)")
         }
         
-        self.tableView.reloadData()
-
+        task.resume()
     }
     
+    func songsLoadedAndUseNotification(notification: NSNotification) {
+        let object = notification.object as! [Song]
+        self.songs.removeAll()
+        self.songs = object
+        dispatch_async(dispatch_get_main_queue()) {
+            self.tableView.reloadData()
+        }
+    }
 }
+
+
+
+
+extension SearchTableViewController:NetworkManagerDelegate {
+    func assignData(songs:[Song]) {
+        self.songs = songs
+        dispatch_async(dispatch_get_main_queue()) {
+            self.tableView.reloadData()
+        }
+    }
+}
+
+
+
+
 
 extension SearchTableViewController:UISearchBarDelegate {
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        if !searchBar.text!.isEmpty {
-            if dataTask != nil {
-                dataTask?.cancel()
+        
+        
+        
+        
+        //use delegate
+//        let objNetwork = NetworkManagerSearch()
+//        objNetwork.delegate = self
+//        objNetwork.getDatafromSearchText(self.searchBar)
+        
+        
+        
+        
+        //use notification
+//        let objNetwork = NetworkManagerSearch()
+//        objNetwork.getDataFromSearchTextAndPostNotification(self.searchBar)
+        
+        
+        
+        
+        //use closure
+        let objNetwork = NetworkManagerSearch()
+        objNetwork.getDataFromSearchTextUseClosure(self.searchBar) {
+            songs in
+            self.songs.removeAll()
+            self.songs = songs
+            dispatch_async(dispatch_get_main_queue()) {
+                self.tableView.reloadData()
             }
-            let charSet = NSCharacterSet.URLQueryAllowedCharacterSet()
-            let stringTerm = searchBar.text!.stringByAddingPercentEncodingWithAllowedCharacters(charSet)!
-            let url = NSURL(string: "https://itunes.apple.com/search?media=music&entity=song&term=\(stringTerm)")
-            dataTask = session.dataTaskWithURL(url!) {
-                data,response,error in
-                if let error = error {
-                    print(error.localizedDescription)
-                }
-                if let httpResponse = response as? NSHTTPURLResponse {
-                    if httpResponse.statusCode == 200 {
-                        print("1")
-                        self.updateSongs(data)
-                    }
-                }
-            }
-            dataTask?.resume()
         }
+    
     }
 }
-
-
-
-
 
 
 
